@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import ImageUploader from './components/ImageUploader';
+import ImageAnalyzer from './components/ImageAnalyzer';
+import WordList from './components/WordList';
 
-function App() {
+const App: React.FC = () => {
+  const [image, setImage] = useState<File | null>(null);
+  const [analyzedData, setAnalyzedData] = useState<Array<{
+    word: string;
+    boundingBox: { x: number; y: number; width: number; height: number };
+    sentence: string;
+  }>>([]);
+
+  const handleImageUpload = (file: File) => {
+    setImage(file);
+    // TODO: Send image to backend for analysis
+  };
+
+  const handleImageAnalysis = (data: any) => {
+    setAnalyzedData(data);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Image Vocabulary Builder</h1>
+      <ImageUploader onUpload={handleImageUpload} />
+      {image && (
+        <ImageAnalyzer
+          image={image}
+          analyzedData={analyzedData}
+          onAnalysis={handleImageAnalysis}
+        />
+      )}
+      <WordList words={analyzedData} />
     </div>
   );
-}
+};
 
 export default App;
