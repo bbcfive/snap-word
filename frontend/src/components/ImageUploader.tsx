@@ -9,6 +9,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onUpload }) => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+
     if (file) {
       onUpload(file);
     }

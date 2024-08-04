@@ -24,6 +24,8 @@ const App: React.FC = () => {
     <div className="App">
       <h1>Image Vocabulary Builder</h1>
       <ImageUploader onUpload={handleImageUpload} />
+
+
       {image && (
         <ImageAnalyzer
           image={image}

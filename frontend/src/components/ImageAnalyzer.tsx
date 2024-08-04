@@ -12,28 +12,47 @@ interface ImageAnalyzerProps {
   onAnalysis: (data: AnalyzedItem[]) => void;
 }
 
+let uploadAndParse = (image: any, onAnalysis: any) => {
+  const analyzeImage = async () => {
+    const formData = new FormData();
+    formData.append('image', image);
+
+    try {
+      const response = await fetch('/analyze', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await response.json();
+      onAnalysis(data);
+    } catch (error) {
+      console.error('Error analyzing image:', error);
+    }
+  };
+  analyzeImage();
+}
+
 const ImageAnalyzer: React.FC<ImageAnalyzerProps> = ({ image, analyzedData, onAnalysis }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
-    const analyzeImage = async () => {
-      const formData = new FormData();
-      formData.append('image', image);
+  // useEffect(() => {
+  //   const analyzeImage = async () => {
+  //     const formData = new FormData();
+  //     formData.append('image', image);
 
-      try {
-        const response = await fetch('/analyze', {
-          method: 'POST',
-          body: formData,
-        });
-        const data = await response.json();
-        onAnalysis(data);
-      } catch (error) {
-        console.error('Error analyzing image:', error);
-      }
-    };
+  //     try {
+  //       const response = await fetch('/analyze', {
+  //         method: 'POST',
+  //         body: formData,
+  //       });
+  //       const data = await response.json();
+  //       onAnalysis(data);
+  //     } catch (error) {
+  //       console.error('Error analyzing image:', error);
+  //     }
+  //   };
 
-    analyzeImage();
-  }, [image, onAnalysis]);
+  //   analyzeImage();
+  // }, [image, onAnalysis]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -62,7 +81,26 @@ const ImageAnalyzer: React.FC<ImageAnalyzerProps> = ({ image, analyzedData, onAn
     }
   }, [image, analyzedData]);
 
-  return <canvas ref={canvasRef} />;
+  return <div>
+    <div>
+      {image && (<div><button onClick={() => {
+        uploadAndParse(image, onAnalysis)
+      }}>do parse</button></div>)}
+
+      <canvas style={{
+        height: "400px",
+        padding: "20px",
+        display: "flex",
+        textAlign: "center",
+        background: "white",
+        width: "400px",
+      }} ref={canvasRef} />
+    </div>
+
+
+  </div >
 };
+
+
 
 export default ImageAnalyzer;
