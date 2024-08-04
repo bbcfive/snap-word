@@ -13,5 +13,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### `TODO:`
 
-1. 注册google cloud vision api: https://cloud.google.com/vision
+1. 注册google cloud vision api: <https://cloud.google.com/vision>
 2. 跑通项目
+
+翻译功能：<https://www.cloudskillsboost.google/focuses/697?parent=catalog>
+
+标签识别：<https://cloud.google.com/vision/docs/detect-labels-image-client-libraries?hl=zh-cn>
